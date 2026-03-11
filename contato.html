@@ -54,7 +54,7 @@
         <div class="card reveal">
           <h2>Solicitar proposta</h2>
           <p>Preencha os dados para entendermos sua necessidade e indicar a melhor solução.</p>
-          <form>
+          <form id="contact-form">
             <div class="form-grid">
               <div class="field">
                 <label for="nome">Nome</label>
@@ -81,7 +81,7 @@
             </div>
             <div class="field">
               <label for="mensagem">Contexto do projeto</label>
-              <textarea id="mensagem" name="mensagem" placeholder="Descreva seu cenário atual, principais desafios e objetivo do projeto."></textarea>
+              <textarea id="mensagem" name="contexto" placeholder="Descreva seu cenário atual, principais desafios e objetivo do projeto."></textarea>
             </div>
             <div class="actions">
               <button class="btn primary" type="submit">Enviar solicitação</button>
@@ -134,7 +134,9 @@
   </footer>
 
 
-    <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script src="script.js"></script>
 
   <a class="whatsapp-float" href="https://wa.me/5551920017835" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
     <img src="image/whatsapp.jpg" alt="WhatsApp" />

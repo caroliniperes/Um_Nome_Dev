@@ -16,6 +16,20 @@
   box-sizing: border-box;
 }
 
+/* Ocultar a barra de rolagem para TODOS os navegadores e elementos principais */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari e Edge moderno */
+  width: 0 !important;
+  background: transparent !important;
+}
+
+html, 
+body {
+  -ms-overflow-style: none !important;  /* Internet Explorer e Edge antigo */
+  scrollbar-width: none !important;  /* Firefox */
+}.hero
+
 html,
 body {
   margin: 0;
@@ -163,38 +177,46 @@ img {
   transform: translateY(-2px);
 }
 
+/* ========================================== */
+/* HERO - FUNDO DE ESTRELAS COM PARALLAX      */
+/* ========================================== */
+
 .hero {
-  background: #0a1324;
+  /* Gradiente ultra suave apenas para manter o contraste do texto nas bordas */
+  background: linear-gradient(180deg, rgba(10, 19, 36, 0.1) 0%, rgba(6, 11, 22, 0.5) 100%), url('image/Home_UND.png');
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Filtros para dar o "brilho" que falta: saturação e contraste */
+  filter: brightness(1.2) contrast(1.1);
+  
+  /* Animação de pulsar e flutuar em tempo real */
+  animation: starPulse 20s ease-in-out infinite alternate;
+  
   color: var(--branco-neutro);
   padding: clamp(4rem, 8vw, 7rem) 0;
   position: relative;
   overflow: hidden;
 }
 
-.hero::before,
-.hero::after {
-  content: "";
-  position: absolute;
-  border-radius: 999px;
-  background: rgba(59, 130, 246, 0.4); /* Azul mais vivo */
-  filter: blur(90px); /* AQUI ESTÁ A MÁGICA: transforma a bola dura numa luz suave */
-  z-index: 0;
+/* EFEITO DE MOVIMENTO E PULSAÇÃO DE BRILHO */
+@keyframes starPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1.1) saturate(1);
+  }
+  50% {
+    filter: brightness(1.4) saturate(1.2); /* Aqui as estrelas brilham mais */
+  }
+  100% {
+    transform: scale(1.1); /* Zoom lento e constante */
+    filter: brightness(1.1) saturate(1);
+  }
 }
 
-.hero::before {
-  width: 450px;
-  height: 450px;
-  top: 10%; /* Desce a luz para ficar direto atrás do card */
-  right: 2%; /* Posiciona embaixo do card */
-}
 
-.hero::after {
-  width: 300px;
-  height: 300px;
-  bottom: -100px;
-  left: -50px;
-  background: rgba(168, 85, 247, 0.3); /* Um toque de roxo na esquerda para combinar com o gradiente do texto */
-}
 
 .hero-grid {
   display: grid;
@@ -202,7 +224,7 @@ img {
   align-items: center;
   grid-template-columns: 1.2fr 1fr;
   position: relative;
-  z-index: 1;
+  z-index: 1; /* Garante que os textos e o card fiquem na frente da imagem */
 }
 
 .kicker {
@@ -245,58 +267,76 @@ h3 {
 p {
   margin: 0 0 1rem;
   color: #d0ddf0;
+  margin-left: 1rem;
 }
 
 .section p {
   color: #b7c6dc;
 }
 
+/* 1. O Grid: Damos ainda mais espaço para a coluna da direita */
+@media (min-width: 981px) {
+  .hero-grid {
+    /* 1fr para o texto, 1.5fr para o card (força o card a esticar até o limite direito da tela) */
+    grid-template-columns: 1fr 1.5fr; 
+    gap: 2rem; /* Reduzimos um pouco o gap para o card poder crescer mais */
+  }
+}
+
+
 .hero-card {
-  /* Usando branco quase transparente em vez de preto para refletir a luz de trás */
   background: rgba(255, 255, 255, 0.04); 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  
-  /* Borda mais aparente para simular a quina do vidro */
   border: 1px solid rgba(255, 255, 255, 0.15); 
-  
   border-radius: var(--radius-md);
-  padding: 1.4rem;
+  
+  /* A MÁGICA ESTÁ AQUI (Cima, Direita, Baixo, Esquerda) */
+  padding: 2.5rem 6rem 2.5rem 2.5rem; 
+  
+  width: 100%; /* Força o card a preencher todo o espaço que demos no grid */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 2; /* Mantém o card acima das luzes */
+  z-index: 2; 
+
+  /* Trazendo a animação de volta, mas sem conflito */
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.9s;
 }
 
+/* 3. Ajuste fino do texto para acompanhar o novo tamanho gigante */
 .metric {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
+  padding: 1.5rem 0; /* Altura exata para bater com a marcação vermelha */
   border-bottom: 1px dashed rgba(148, 163, 184, 0.35);
-  transition: transform 0.3s ease; /* Prepara para a animação */
-}
-
-/* Move a linha inteira levemente para a direita ao passar o mouse */
-.metric:hover {
-  transform: translateX(6px); 
-}
-
-.metric strong {
-  font-size: 1.2rem;
-  transition: color 0.3s ease; /* Prepara a mudança de cor */
-}
-
-/* Muda a cor da palavra em destaque (Profissionais, Eficientes...) no hover */
-.metric:hover strong {
-  color: #a855f7; /* Um tom de roxo para combinar com o fundo neon que criamos */
+  transition: transform 0.3s ease; 
 }
 
 .metric:last-child {
   border-bottom: 0;
 }
 
+.metric:hover {
+  transform: translateX(6px); 
+}
+
+.metric span {
+  font-size: 1.05rem; 
+  line-height: 1.5;
+  padding-right: 2rem; 
+}
+
 .metric strong {
-  font-size: 1.2rem;
+  font-size: 1.3rem; 
+  transition: color 0.3s ease;
+  white-space: nowrap; 
+}
+
+.metric:hover strong {
+  color: #a855f7; 
 }
 
 .actions {
@@ -902,12 +942,8 @@ p {
 .hero-grid > div:first-child p { animation-delay: 0.5s; }
 .hero-grid > div:first-child .actions { animation-delay: 0.7s; }
 
-/* Anima o card de vidro para entrar por último */
-.hero-card {
-  opacity: 0;
-  animation: fadeInUp 0.8s ease forwards;
-  animation-delay: 0.9s;
-}
+
+
 
 /* Botão CTA Final - Maior e mais impactante */
 .cta-strip .btn.primary {
@@ -926,4 +962,27 @@ p {
   transform: translateY(-4px) scale(1.05); /* Cresce um pouquinho pro usuário */
   box-shadow: 0 15px 35px rgba(37, 99, 235, 0.6);
   background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+/* EFEITO STARDUST - PARTÍCULAS FLUTUANTES    */
+/* ========================================== */
+
+.star-particle {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none; /* Garante que não atrapalhe cliques no site */
+  opacity: 0.5;
+  filter: blur(1px);
+  z-index: 1; /* Fica atrás do texto e do card, mas à frente da foto de fundo */
+  animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  to {
+    transform: translateY(-100vh) translateX(20px);
+  }
 }
