@@ -54,12 +54,11 @@
     <section class="section">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <p class="kicker">Propósito</p>
-            <h2>Simplificar o digital para o empresário focar no crescimento.</h2>
-          </div>
-          <p>Mais do que entregar tecnologia, estruturamos operações digitais modernas, eficientes e competitivas.</p>
-        </div>
+  
+  <p class="support-text">
+    Liderança técnica com foco em resultados reais e segurança para o seu negócio.
+  </p>
+</div>
         <div class="grid col-2">
           <article class="card reveal">
             <div class="tag">Missão</div>
@@ -76,40 +75,80 @@
     </section>
 
     <section class="section alt">
-      <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <p class="kicker">Valores</p>
-            <h2>Base que orienta cada projeto.</h2>
-          </div>
+  <div class="container">
+    <div class="team-header reveal">
+      <p class="kicker">Valores</p>
+      <h2 class="title-main">A base que orienta cada <span class="text-gradient">projeto</span></h2>
+      <div class="title-underline"></div>
+    </div>
+    
+    <div class="grid col-2 values-container">
+      <article class="value-card reveal">
+        <div class="value-badge">01</div>
+        <div class="value-text">
+          <h3>Clareza</h3>
+          <p>Comunicação transparente e objetiva durante todo o ciclo do projeto.</p>
         </div>
-        
-        <div class="grid col-2">
-          <article class="value-card reveal">
-            <span class="value-number">01</span>
-            <strong>Clareza</strong>
-            <p>Comunicação transparente e objetiva durante todo o projeto.</p>
-          </article>
-          
-          <article class="value-card reveal">
-            <span class="value-number">02</span>
-            <strong>Estratégia</strong>
-            <p>Decisões técnicas e de negócio orientadas a impacto real.</p>
-          </article>
-          
-          <article class="value-card reveal">
-            <span class="value-number">03</span>
-            <strong>Proximidade</strong>
-            <p>Relacionamento humano, acessível e alinhado à rotina do cliente.</p>
-          </article>
-          
-          <article class="value-card reveal">
-            <span class="value-number">04</span>
-            <strong>Eficiência e evolução</strong>
-            <p>Processos organizados, melhoria contínua e foco em performance.</p>
-          </article>
+      </article>
+      
+      <article class="value-card reveal">
+        <div class="value-badge">02</div>
+        <div class="value-text">
+          <h3>Estratégia</h3>
+          <p>Decisões técnicas e de negócio orientadas a gerar impacto real e mensurável.</p>
         </div>
+      </article>
+      
+      <article class="value-card reveal">
+        <div class="value-badge">03</div>
+        <div class="value-text">
+          <h3>Proximidade</h3>
+          <p>Relacionamento humano, acessível e alinhado à rotina do cliente.</p>
+        </div>
+      </article>
+      
+      <article class="value-card reveal">
+        <div class="value-badge">04</div>
+        <div class="value-text">
+          <h3>Eficiência e evolução</h3>
+          <p>Processos organizados, melhoria contínua e foco absoluto em performance.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+   <section class="section team-section">
+  <div class="container">
+    <div class="team-header reveal">
+      <p class="kicker">Especialistas</p>
+      <h2 class="title-main">Os sócios por trás da <span class="text-gradient">operação</span></h2>
+      <p class="support-text">
+        Liderança técnica com foco em resultados reais e segurança para o seu negócio.
+      </p>
+      <div class="title-underline"></div>
+    </div>
+    
+    <div class="grid col-2 team-grid">
+          <article class="team-card reveal" data-pro="1">
+            <div class="member-img-wrapper portrait-wrapper">
+              <img src="image/IMG_PORTFOLIO.jpg" alt="Sócio 1" class="member-img">
+            </div>
+            <div class="member-info">
+              <h3>Guilherme Eduardo</h3>
+              <p class="role text-gradient">Sócio | Especialista em Infraestrutura</p>
+            </div>
+          </article>
 
+          <article class="team-card reveal" data-pro="2">
+            <div class="member-img-wrapper portrait-wrapper">
+              <img src="image/IMG_PORT_CAROL.jpg" alt="Sócio 2" class="member-img">
+            </div>
+            <div class="member-info">
+              <h3>Caroline Mathias</h3>
+              <p class="role text-gradient">Sócio | Engenheira de Redes & Cloud</p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   </main>
@@ -142,10 +181,31 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
-
   <a class="whatsapp-float" href="https://wa.me/5551920017835" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
     <img src="image/whatsapp.jpg" alt="WhatsApp" />
   </a>
+
+  <div id="bio-modal" class="modal-overlay">
+    <div class="modal-content glass">
+      <button class="close-modal" aria-label="Fechar">&times;</button>
+      <div class="modal-body">
+        <h2 id="modal-name"></h2>
+        <p id="modal-full-role" class="text-gradient" style="font-weight: 600; margin-bottom: 1rem;"></p>
+        <div class="modal-divider"></div>
+        <div class="modal-bio-text">
+          <h4 style="color: #3b82f6; margin-top: 1.5rem;">Resumo Profissional</h4>
+          <p id="modal-summary" style="opacity: 0.9; line-height: 1.6;"></p>
+          
+          <h4 style="color: #3b82f6; margin-top: 1.5rem;">Principais Competências</h4>
+          <ul id="modal-skills" class="skills-list"></ul>
+          
+          <h4 style="color: #3b82f6; margin-top: 1.5rem;">Experiência</h4>
+          <p id="modal-experience" style="opacity: 0.9; line-height: 1.6;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

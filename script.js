@@ -1,41 +1,38 @@
-﻿(function () {
-  // 1. Controle do Menu Mobile
+﻿// ==========================================
+// 1. INICIALIZAÇÃO GERAL (Menu, Parallax, Reveal)
+// ==========================================
+(function () {
   const menuToggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".nav");
 
   if (menuToggle && nav) {
-    menuToggle.addEventListener("click", function () {
+    menuToggle.addEventListener("click", () => {
       nav.classList.toggle("open");
-      menuToggle.setAttribute("aria-expanded", nav.classList.contains("open") ? "true" : "false");
+      menuToggle.setAttribute("aria-expanded", nav.classList.contains("open"));
     });
   }
 
-  // 2. Efeito Parallax (Independente do Menu)
   const heroSection = document.querySelector('.hero');
   if (heroSection) {
-    heroSection.addEventListener('mousemove', function(e) {
+    heroSection.addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
       heroSection.style.setProperty('--move-x', `${-x * 25}px`);
       heroSection.style.setProperty('--move-y', `${-y * 25}px`);
     });
-
-    heroSection.addEventListener('mouseleave', function() {
+    heroSection.addEventListener('mouseleave', () => {
       heroSection.style.setProperty('--move-x', '0px');
       heroSection.style.setProperty('--move-y', '0px');
     });
   }
 
-  // 3. Marca a página atual
+  // Marca página ativa
   const current = window.location.pathname.split("/").pop() || "index.html";
-  const links = document.querySelectorAll(".nav a, .footer-nav a");
-  links.forEach(function (link) {
-    if (link.getAttribute("href") === current) {
-      link.classList.add("active");
-    }
+  document.querySelectorAll(".nav a, .footer-nav a").forEach(link => {
+    if (link.getAttribute("href") === current) link.classList.add("active");
   });
 
-  // 4. Scroll Reveal
+  // Scroll Reveal
   const revealElements = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window && revealElements.length) {
     const observer = new IntersectionObserver((entries, obs) => {
@@ -50,7 +47,9 @@
   }
 })();
 
-// 5. Gerador de Poeira Estelar (Stardust)
+// ==========================================
+// 2. POEIRA ESTELAR (STARDUST)
+// ==========================================
 function createStardust() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
@@ -58,8 +57,7 @@ function createStardust() {
     const particle = document.createElement('div');
     particle.className = 'star-particle';
     const size = Math.random() * 3 + 'px';
-    particle.style.width = size;
-    particle.style.height = size;
+    particle.style.width = size; particle.style.height = size;
     particle.style.left = Math.random() * 100 + '%';
     particle.style.top = Math.random() * 100 + '%';
     particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
@@ -68,32 +66,102 @@ function createStardust() {
     hero.appendChild(particle);
   }
 }
-window.addEventListener('load', createStardust); 
+window.addEventListener('load', createStardust);
 
-// 6. Configuração EmailJS
+// ==========================================
+// 3. CONTATO (EMAILJS)
+// ==========================================
 (function() {
-  emailjs.init("2xo7xQpyXfuhVz4ux");
+  if (typeof emailjs !== 'undefined') emailjs.init("2xo7xQpyXfuhVz4ux");
 })();
 
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', function(event) {
-    event.preventDefault();
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
     const btn = this.querySelector('button[type="submit"]');
     const originalText = btn.innerText;
-    btn.innerText = 'Enviando...';
-    btn.disabled = true;
+    btn.innerText = 'Enviando...'; btn.disabled = true;
 
     emailjs.sendForm('service_3sjdvo9', 'template_vdbum76', this)
       .then(() => {
         alert('Solicitação enviada com sucesso!');
-        contactForm.reset();
-        btn.innerText = originalText;
-        btn.disabled = false;
-      }, (error) => {
-        alert('Erro ao enviar: ' + JSON.stringify(error));
-        btn.innerText = originalText;
-        btn.disabled = false;
+        this.reset();
+        btn.innerText = originalText; btn.disabled = false;
+      }, (err) => {
+        alert('Erro ao enviar: ' + JSON.stringify(err));
+        btn.innerText = originalText; btn.disabled = false;
       });
   });
 }
+
+// ==========================================
+// ==========================================
+// 4. LÓGICA DO MODAL (EQUIPE) - FIX "FREEZE" DEFINITIVO
+// ==========================================
+document.addEventListener('DOMContentLoaded', function() {
+  const sociosData = {
+    "1": {
+      name: "Guilherme Souza",
+      role: "Sócio | Especialista em Infraestrutura",
+      summary: "Estrategista de TI focado em viabilizar o crescimento de empresas através de bases tecnológicas sólidas e escaláveis.",
+      skills: ["Servidores", "Cloud Híbrida", "Virtualização", "Segurança"],
+      experience: "Liderou projetos de infraestrutura crítica para diversos setores, garantindo 99.9% de uptime."
+    },
+    "2": {
+      name: "Carol Souza",
+      role: "Sócio | Engenheira de Redes & Cloud",
+      summary: "Especialista em conectividade e proteção de dados, garantindo que a tecnologia seja o motor do negócio.",
+      skills: ["Redes Cisco", "Segurança Digital", "AWS/Azure", "SD-WAN"],
+      experience: "Responsável pela migração de operações complexas para ambientes em nuvem com foco em segurança."
+    }
+  };
+
+  const modal = document.getElementById('bio-modal');
+  const teamCards = document.querySelectorAll('.team-card');
+
+  if (modal && teamCards.length > 0) {
+    teamCards.forEach(card => {
+      // O evento de clique é adicionado ao card inteiro
+      card.addEventListener('click', function(e) {
+        // USO DO CLOSEST: Garante que pegamos o artigo pai, não a imagem ou o texto clicado
+        const cardElement = e.target.closest('.team-card');
+        
+        if (!cardElement) return; // Se por algum motivo bizarro não achar o card, aborta.
+
+        const id = cardElement.getAttribute('data-pro');
+        const data = sociosData[id];
+
+        if (data) {
+          // Preenche os dados com segurança
+          const nameEl = document.getElementById('modal-name');
+          const roleEl = document.getElementById('modal-full-role');
+          const summaryEl = document.getElementById('modal-summary');
+          const expEl = document.getElementById('modal-experience');
+          const skillsList = document.getElementById('modal-skills');
+
+          if(nameEl) nameEl.innerText = data.name;
+          if(roleEl) roleEl.innerText = data.role;
+          if(summaryEl) summaryEl.innerText = data.summary;
+          if(expEl) expEl.innerText = data.experience;
+          if(skillsList) skillsList.innerHTML = data.skills.map(s => `<li>${s}</li>`).join('');
+
+          // Abre o modal
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    const closeModal = () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    // Eventos de fechar
+    const closeBtn = document.querySelector('.close-modal');
+    if (closeBtn) closeBtn.onclick = closeModal;
+    modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+    window.onkeydown = (e) => { if (e.key === "Escape") closeModal(); };
+  }
+});
