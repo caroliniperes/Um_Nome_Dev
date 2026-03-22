@@ -162,6 +162,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.querySelector('.close-modal');
     if (closeBtn) closeBtn.onclick = closeModal;
     modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-    window.onkeydown = (e) => { if (e.key === "Escape") closeModal(); };
+    window.addEventListener('keydown', (e) => {
+      if (e.key === "Escape" && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
   }
 });
