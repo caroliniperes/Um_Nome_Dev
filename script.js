@@ -102,18 +102,18 @@ if (contactForm) {
 document.addEventListener('DOMContentLoaded', function() {
   const sociosData = {
     "1": {
-      name: "Guilherme Souza",
-      role: "Sócio | Especialista em Infraestrutura",
-      summary: "Estrategista de TI focado em viabilizar o crescimento de empresas através de bases tecnológicas sólidas e escaláveis.",
-      skills: ["Servidores", "Cloud Híbrida", "Virtualização", "Segurança"],
-      experience: "Liderou projetos de infraestrutura crítica para diversos setores, garantindo 99.9% de uptime."
+      name: "Guilherme Eduardo",
+      role: "Sócio | Desenvolvimento e Infraestrutura",
+      summary: "Responsável pela estrutura técnica dos projetos, atua no desenvolvimento e implementação das soluções digitais, garantindo performance, estabilidade e escalabilidade.",
+      skills: [],
+      experience: ""
     },
     "2": {
-      name: "Carol Souza",
-      role: "Sócio | Engenheira de Redes & Cloud",
-      summary: "Especialista em conectividade e proteção de dados, garantindo que a tecnologia seja o motor do negócio.",
-      skills: ["Redes Cisco", "Segurança Digital", "AWS/Azure", "SD-WAN"],
-      experience: "Responsável pela migração de operações complexas para ambientes em nuvem com foco em segurança."
+      name: "Carolini Mathias",
+      role: "Sócia | Estratégia Digital e Design",
+      summary: "Responsável pela estratégia, posicionamento e identidade visual dos projetos, com foco em criar soluções que conectem negócio, comunicação e resultado.",
+      skills: [],
+      experience: ""
     }
   };
 
@@ -139,12 +139,22 @@ document.addEventListener('DOMContentLoaded', function() {
           const summaryEl = document.getElementById('modal-summary');
           const expEl = document.getElementById('modal-experience');
           const skillsList = document.getElementById('modal-skills');
+          const skillsTitle = document.getElementById('modal-skills-title');
+          const experienceTitle = document.getElementById('modal-experience-title');
 
           if(nameEl) nameEl.innerText = data.name;
           if(roleEl) roleEl.innerText = data.role;
           if(summaryEl) summaryEl.innerText = data.summary;
-          if(expEl) expEl.innerText = data.experience;
-          if(skillsList) skillsList.innerHTML = data.skills.map(s => `<li>${s}</li>`).join('');
+          if(expEl) {
+            expEl.innerText = data.experience;
+            expEl.style.display = data.experience ? 'block' : 'none';
+          }
+          if(experienceTitle) experienceTitle.style.display = data.experience ? 'block' : 'none';
+          if(skillsList) {
+            skillsList.innerHTML = data.skills.map(s => `<li>${s}</li>`).join('');
+            skillsList.style.display = data.skills.length ? 'grid' : 'none';
+          }
+          if(skillsTitle) skillsTitle.style.display = data.skills.length ? 'block' : 'none';
 
           // Abre o modal
           modal.classList.add('active');

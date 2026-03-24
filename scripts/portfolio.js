@@ -10,20 +10,20 @@
       solution: 'Criação de site responsivo com identidade visual consistente e navegação objetiva.',
       result: 'Base digital sólida, maior retenção de visitantes e aumento de leads qualificados.',
       image: 'image/QS_SOUZA_SITE PREVIA.png',
-      link: 'https://quiliciesouza.com.br',
+      link: 'https://quilicisouzaadvogados.com.br/',
       linkLabel: 'Ver case'
     },
     {
       id: 'mcm-autopecas',
       category: 'E-commerce',
       client: 'MCM Autopeças',
-      project: 'Padronização de anúncios',
-      description: 'Padronização visual dos anúncios para marketplaces com foco em conversão e percepção de qualidade.',
-      challenge: 'Anúncios inconsistentes e baixo CTR.',
-      solution: 'Template responsivo, texto otimizado e imagens tratadas para uniformizar o catálogo.',
-      result: 'Aumento de visitas, taxa de clique e conversão no ambiente de vendas.',
-      image: 'image/IMG_PORTFOLIO.png',
-      link: '#',
+      project: 'Desenvolvimento da logo e da identidade visual, padronização de anúncios e tratamento de fotos dos produtos.',
+      description: 'Criação da logo e da identidade visual da marca, aliada à padronização visual dos anúncios para marketplaces e ao tratamento das fotos dos produtos, com foco em aumentar a conversão e reforçar a percepção de qualidade.',
+      challenge: '',
+      solution: '',
+      result: '',
+      image: 'image/MCM_AUTOPECAS_LOGO.png',
+      link: 'https://www.mercadolivre.com.br/pagina/mcmstoreparts?item_id=MLB4281355887&category_id=MLB47111&seller_id=2368870513&client=recoview-selleritems&recos_listing=true#origin=upp&component=seller&typeSeller=eshop',
       linkLabel: 'Ver case'
     },
     {
@@ -35,7 +35,7 @@
       challenge: 'Alto bounce rate e baixa geração de propostas a partir do site.',
       solution: 'Melhoria do fluxo, clarificação de ofertas e construção de caminhos rápidos para contato.',
       result: '+35% em conversão de formulários e maior engajamento com o conteúdo de serviços.',
-      image: 'image/IMG_PORTFOLIO.png',
+      image: '',
       link: '#',
       linkLabel: 'Ver case'
     },
@@ -48,7 +48,7 @@
       challenge: 'Demora no atendimento e informações desconexas em cada conversa.',
       solution: 'Implementação de automação baseada em gatilhos e integração com workflow interno.',
       result: 'Redução de 40% no tempo de resposta e aumento de 25% em contatos qualificados.',
-      image: 'image/IMG_PORTFOLIO.png',
+      image: '',
       link: '#',
       linkLabel: 'Ver case'
     }
@@ -73,16 +73,40 @@
     link: document.getElementById('portfolio-modal-link')
   };
 
+  const renderProjectImage = (project) => {
+    if (!project.image || !project.image.trim()) {
+      return '';
+    }
+
+    return `<img src="${project.image}" alt="${project.project}" loading="lazy" />`;
+  };
+
   grid.innerHTML = portfolioProjects.map((project) => `
-    <article class="portfolio-card" data-portfolio-id="${project.id}" tabindex="0" role="button" aria-label="Abrir detalhes do projeto ${project.project}">
+    <article
+      class="portfolio-card"
+      data-portfolio-id="${project.id}"
+      tabindex="0"
+      role="button"
+      aria-label="Abrir detalhes do projeto ${project.project}"
+    >
       <div class="portfolio-card__image">
-        <img src="${project.image}" alt="${project.project}" />
+        ${renderProjectImage(project)}
       </div>
+
       <div class="portfolio-card__content">
         <span class="portfolio-card__category">${project.category}</span>
         <h3 class="portfolio-card__title">${project.client}</h3>
         <p class="portfolio-card__subtitle">${project.project}</p>
-        ${project.link ? `<a href="${project.link}" class="portfolio-card__button" target="_blank" rel="noopener noreferrer">${project.linkLabel || 'Ver case'}</a>` : ''}
+        ${project.link ? `
+          <a
+            href="${project.link}"
+            class="portfolio-card__button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ${project.linkLabel || 'Ver case'}
+          </a>
+        ` : ''}
       </div>
     </article>
   `).join('');
@@ -95,8 +119,16 @@
     modalElements.challenge.textContent = project.challenge;
     modalElements.solution.textContent = project.solution;
     modalElements.result.textContent = project.result;
-    modalElements.image.src = project.image;
-    modalElements.image.alt = project.project;
+
+    if (project.image && project.image.trim()) {
+      modalElements.image.src = project.image;
+      modalElements.image.alt = project.project;
+      modalElements.image.style.display = 'block';
+    } else {
+      modalElements.image.removeAttribute('src');
+      modalElements.image.alt = '';
+      modalElements.image.style.display = 'none';
+    }
 
     if (project.link) {
       modalElements.link.href = project.link;
@@ -119,31 +151,47 @@
 
   grid.addEventListener('click', (event) => {
     if (event.target.closest('.portfolio-card__button')) {
-      return; // permite abrir o link do cliente sem disparar o modal
+      return;
     }
+
     const card = event.target.closest('[data-portfolio-id]');
     if (!card) return;
-    const project = portfolioProjects.find((item) => item.id === card.dataset.portfolioId);
+
+    const project = portfolioProjects.find(
+      (item) => item.id === card.dataset.portfolioId
+    );
+
     if (project) openModal(project);
   });
 
   grid.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
+
     const card = event.target.closest('[data-portfolio-id]');
     if (!card) return;
+
     event.preventDefault();
-    const project = portfolioProjects.find((item) => item.id === card.dataset.portfolioId);
+
+    const project = portfolioProjects.find(
+      (item) => item.id === card.dataset.portfolioId
+    );
+
     if (project) openModal(project);
   });
 
   const closeButton = modal.querySelector('.portfolio-close');
-  if (closeButton) closeButton.addEventListener('click', closeModal);
+
+  if (closeButton) {
+    closeButton.addEventListener('click', closeModal);
+  }
 
   modal.addEventListener('click', (event) => {
     if (event.target === modal) closeModal();
   });
 
   window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    if (event.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
   });
 });
